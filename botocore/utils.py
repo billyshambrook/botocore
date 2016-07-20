@@ -976,13 +976,13 @@ class ContainerMetadataFetcher(object):
     def _get_response(self, full_url, headers, timeout):
         try:
             response = self._session.get(full_url, headers=headers,
-                                         timeout=timeout).decode('utf-8')
+                                         timeout=timeout)
             if response.status_code != 200:
                 raise MetadataRetrievalError(
                     error_msg="Received non 200 response (%s) from ECS metadata: %s"
                     % (response.status_code, response.content))
             try:
-                return json.loads(response.content)
+                return json.loads(response.content.decode('utf-8'))
             except ValueError:
                 raise MetadataRetrievalError(
                     error_msg=("Unable to parse JSON returned from "
